@@ -41,5 +41,7 @@ void numToTensorBool(Stack& stack);
 
 void dictIndex(Stack& stack);
 
+void raiseExceptionWithMessage(Stack& stack);
+
 } // namespace jit
 } // namespace torch

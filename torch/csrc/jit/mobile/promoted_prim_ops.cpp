@@ -2,6 +2,7 @@
 
 namespace torch {
 namespace jit {
+
 void tupleIndex(Stack& stack) {
   int64_t index = pop(stack).toInt();
   auto tuple = pop(stack).toTuple();
@@ -14,7 +15,22 @@ void tupleIndex(Stack& stack) {
 }
 
 void raiseException(Stack& stack) {
+  // this kernel supports RaiseException with only one argument: the error
+  // DEPRECATED from bytecode_version 8;
+  // Please do not make any changes to this to support BC
   throw JITException(pop(stack).toStringRef());
+}
+
+void raiseExceptionWithMessage(Stack& stack) {
+  // this kernel supports RaiseException with only two arguments: the error and
+  // the message Please make changes only to this kernel
+  c10::optional<std::string> qualified_class_name =
+      pop(stack).toOptional<std::string>();
+  std::string message;
+  pop(stack, message);
+
+  // throw JITException(message, qualified_class_name);
+  throw JITException(message);
 }
 
 void is(Stack& stack) {
